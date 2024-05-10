@@ -46,11 +46,11 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
             // Text field for input
             val inputTextField = JBTextField().apply {
                 columns = 36
-                emptyText.setText("Enter logs UUID");
+                emptyText.setText("Enter logs UUID")
                 putClientProperty(
                     TextComponentEmptyText.STATUS_VISIBLE_FUNCTION,
                     Predicate<JBTextField> { tf: JBTextField -> tf.text.isEmpty() }
-                );
+                )
             }
 
             // Button next to the text field
@@ -105,8 +105,7 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
         }
 
         private fun sendRequest(uuid: String): Result<String> {
-            val url: URL =
-                URL("https://mc.a8c.com/encrypted-logs.php?uuid=$uuid")
+            val url = URL("https://mc.a8c.com/encrypted-logs.php?uuid=$uuid")
             val proxyAddress = InetSocketAddress("localhost", 8080)
 
             val proxy = Proxy(Proxy.Type.SOCKS, proxyAddress)
