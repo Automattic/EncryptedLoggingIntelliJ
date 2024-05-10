@@ -1,6 +1,7 @@
 package com.automattic.encryptedloggingintellij.toolWindow
 
 import com.automattic.encryptedloggingintellij.services.MyProjectService
+import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
@@ -11,8 +12,14 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.components.TextComponentEmptyText
 import com.intellij.ui.content.ContentFactory
+import org.jsoup.Jsoup
 import java.awt.BorderLayout
 import java.awt.FlowLayout
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.net.SocketException
+import java.net.URL
+import java.net.URLConnection
 import java.util.function.Predicate
 import javax.swing.JButton
 import javax.swing.JPanel
@@ -71,6 +78,35 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
 
             actionButton.apply {
                 addActionListener {
+                    val response = sendRequest(inputTextField.text)
+                    WriteCommandAction.runWriteCommandAction(null) {
+                        response.fold(
+                            onSuccess = { log ->
+                                outputTextArea.text = log
+                            },
+                            onFailure = {throwable ->
+                                outputTextArea.text = throwable.stackTraceToString()
+                                if(throwable is SocketException) {
+                                    outputTextArea.text += "\n ⚠️ Make sure Autoproxxy is connected!\n"
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
+        private fun sendRequest(uuid: String): Result<String> {
+            val url: URL =
+                URL("https://mc.a8c.com/encrypted-logs.php?uuid=$uuid")
+            val proxyAddress = InetSocketAddress("localhost", 8080)
+
+            val proxy = Proxy(Proxy.Type.SOCKS, proxyAddress)
+            val connection: URLConnection = url.openConnection(proxy)
+
+            return runCatching {
+                connection.getInputStream().bufferedReader().use {
+                    it.readText()
                 }
             }
         }
