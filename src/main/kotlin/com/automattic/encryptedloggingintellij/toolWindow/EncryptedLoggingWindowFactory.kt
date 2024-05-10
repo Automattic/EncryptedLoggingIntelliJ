@@ -131,6 +131,10 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
                     "Basic $encodedBasicAuth"
                 )
 
+                connection.setRequestProperty(
+                    "User-Agent", "EncryptedLogging Idea Plugin"
+                )
+
                 connection.getInputStream().bufferedReader().use {
                     Jsoup.parse(it.readText())
                         .select("pre")
