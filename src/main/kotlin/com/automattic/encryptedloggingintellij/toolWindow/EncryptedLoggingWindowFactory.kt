@@ -86,7 +86,7 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
 
             actionButton.apply {
                 addActionListener {
-                    val response = sendRequest(inputTextField.text)
+                    val response = sendRequest(inputTextField.text.ifBlank { "default-incorrect-uuid" })
                     WriteCommandAction.runWriteCommandAction(null) {
                         response.fold(
                             onSuccess = { log ->
@@ -113,7 +113,7 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
             }
         }
 
-        private fun sendRequest(uuid: String = "default incorrect uuid"): Result<String> {
+        private fun sendRequest(uuid: String): Result<String> {
             val url: URL =
                 URL("https://mc.a8c.com/encrypted-logs.php?uuid=$uuid")
             val proxyAddress = InetSocketAddress("localhost", 8080)
