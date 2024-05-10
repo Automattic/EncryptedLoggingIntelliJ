@@ -1,12 +1,10 @@
 package com.automattic.encryptedloggingintellij.toolWindow
 
-import com.automattic.encryptedloggingintellij.services.MyProjectService
 import com.automattic.encryptedloggingintellij.services.createCredentialAttributes
 import com.automattic.encryptedloggingintellij.ui.LoginDialog
 import com.intellij.credentialStore.Credentials
 import com.intellij.ide.passwordSafe.PasswordSafe
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
@@ -21,12 +19,7 @@ import io.ktor.utils.io.errors.*
 import org.jsoup.Jsoup
 import java.awt.BorderLayout
 import java.awt.FlowLayout
-import java.net.InetSocketAddress
-import java.net.Proxy
-import java.net.SocketException
-import java.net.URL
-import java.net.URLConnection
-import java.util.Base64
+import java.net.*
 import java.util.function.Predicate
 import javax.swing.JButton
 import javax.swing.JPanel
@@ -40,16 +33,14 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
     }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val encryptedLoggingWindow = EncryptedLoggingWindow(toolWindow)
+        val encryptedLoggingWindow = EncryptedLoggingWindow()
         val content = ContentFactory.getInstance().createContent(encryptedLoggingWindow.getContent(), null, false)
         toolWindow.contentManager.addContent(content)
     }
 
     override fun shouldBeAvailable(project: Project) = true
 
-    class EncryptedLoggingWindow(toolWindow: ToolWindow) {
-
-        private val service = toolWindow.project.service<MyProjectService>()
+    class EncryptedLoggingWindow {
 
         fun getContent() = JBPanel<JBPanel<*>>(BorderLayout()).apply {
             // Text field for input

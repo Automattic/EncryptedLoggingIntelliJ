@@ -1,8 +1,5 @@
 package com.automattic.encryptedloggingintellij.ui
 
-import com.automattic.encryptedloggingintellij.services.createCredentialAttributes
-import com.intellij.credentialStore.Credentials
-import com.intellij.ide.passwordSafe.PasswordSafe
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
 import java.awt.FlowLayout
