@@ -1,9 +1,9 @@
-package com.github.wzieba.encryptedloggingintellij.services
+package com.automattic.encryptedloggingintellij.services
 
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
-import com.github.wzieba.encryptedloggingintellij.MyBundle
+import com.automattic.encryptedloggingintellij.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {

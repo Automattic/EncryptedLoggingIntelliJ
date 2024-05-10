@@ -1,4 +1,4 @@
-package com.github.wzieba.encryptedloggingintellij
+package com.automattic.encryptedloggingintellij
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
