@@ -1,6 +1,7 @@
 package com.automattic.encryptedloggingintellij.toolWindow
 
 import com.automattic.encryptedloggingintellij.services.MyProjectService
+import com.automattic.encryptedloggingintellij.ui.LoginDialog
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -12,6 +13,7 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.components.TextComponentEmptyText
 import com.intellij.ui.content.ContentFactory
+import io.ktor.utils.io.errors.*
 import org.jsoup.Jsoup
 import java.awt.BorderLayout
 import java.awt.FlowLayout
@@ -76,6 +78,7 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
             add(inputPanel, BorderLayout.NORTH)
             add(scrollPane, BorderLayout.CENTER)
 
+
             actionButton.apply {
                 addActionListener {
                     val response = sendRequest(inputTextField.text)
@@ -84,10 +87,12 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
                             onSuccess = { log ->
                                 outputTextArea.text = log
                             },
-                            onFailure = {throwable ->
-                                outputTextArea.text = throwable.stackTraceToString()
+                            onFailure = { throwable ->
                                 if(throwable is SocketException) {
+                                    outputTextArea.text = throwable.stackTraceToString()
                                     outputTextArea.text += "\n ⚠️ Make sure Autoproxxy is connected!\n"
+                                } else if (throwable is IOException){
+                                    LoginDialog().show()
                                 }
                             }
                         )
