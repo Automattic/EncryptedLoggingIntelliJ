@@ -6,6 +6,6 @@ import com.intellij.credentialStore.generateServiceName
 
 fun createCredentialAttributes(): CredentialAttributes {
     return CredentialAttributes(
-        generateServiceName("automattic-encrypted-logs", "login")
+        generateServiceName("automattic-encrypted-logs", "usernamepassword")
     )
 }
