@@ -1,6 +1,38 @@
-# EncryptedLoggingIntelliJ
-
+# EncryptedLoggingIntelliJ 
 ![Build](https://github.com/Automattic/EncryptedLoggingIntelliJ/workflows/Build/badge.svg)
+
+<!-- Plugin description -->
+Plugin for fetching and browsing Encrypted Logs directly in IDE.
+<!-- Plugin description end -->
+
+## Installation
+
+  Download the [latest release](https://github.com/Automattic/EncryptedLoggingIntelliJ/releases/latest) and install it manually using
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd> (**do not unzip**)
+
+## Usage
+1. Open the tool window by navigating to `View` -> `Tool Windows` -> `Automattic's Encrypted Logs` or find it with Actions dialog (`CMD` + `Shift` + `A`)
+2. Enter UUID and press Fetch. Provide MC credentials when asked
+
+## Security
+The plugin is using [`PasswordSafe`](https://plugins.jetbrains.com/docs/intellij/persisting-sensitive-data.html) mechanism. Credentials are saved in a secure, platform-specific storage. For macOS it's Keychain.
+
+
+---
+Plugin based on the [IntelliJ Platform Plugin Template][template].
+
+[template]: https://github.com/JetBrains/intellij-platform-plugin-template
+[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+
+
+<details>
+<summary> In case marketplace publish: </summary>
+
+- Using the IDE built-in plugin system:
+  
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "EncryptedLoggingIntelliJ"</kbd> >
+  <kbd>Install</kbd>
+
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
@@ -16,25 +48,4 @@
 - [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
-<!-- Plugin description -->
-Plugin for fetching and browsing Encrypted Logs directly in IDE.
-<!-- Plugin description end -->
-
-## Installation
-
-- Using the IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "EncryptedLoggingIntelliJ"</kbd> >
-  <kbd>Install</kbd>
-  
-- Manually:
-
-  Download the [latest release](https://github.com/Automattic/EncryptedLoggingIntelliJ/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
-
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
-[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+</details>
