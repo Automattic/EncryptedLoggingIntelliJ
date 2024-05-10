@@ -1,7 +1,9 @@
 package com.automattic.encryptedloggingintellij.toolWindow
 
 import com.automattic.encryptedloggingintellij.services.MyProjectService
+import com.automattic.encryptedloggingintellij.services.createCredentialAttributes
 import com.automattic.encryptedloggingintellij.ui.LoginDialog
+import com.intellij.ide.passwordSafe.PasswordSafe
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -13,6 +15,7 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.components.TextComponentEmptyText
 import com.intellij.ui.content.ContentFactory
+import io.ktor.util.*
 import io.ktor.utils.io.errors.*
 import org.jsoup.Jsoup
 import java.awt.BorderLayout
@@ -22,6 +25,7 @@ import java.net.Proxy
 import java.net.SocketException
 import java.net.URL
 import java.net.URLConnection
+import java.util.Base64
 import java.util.function.Predicate
 import javax.swing.JButton
 import javax.swing.JPanel
@@ -88,10 +92,11 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
                                 outputTextArea.text = log
                             },
                             onFailure = { throwable ->
+                                outputTextArea.text = throwable.stackTraceToString()
                                 if(throwable is SocketException) {
-                                    outputTextArea.text = throwable.stackTraceToString()
                                     outputTextArea.text += "\n ⚠️ Make sure Autoproxxy is connected!\n"
-                                } else if (throwable is IOException){
+                                } else if (throwable is IOException || throwable is NullPointerException){
+                                    outputTextArea.text += "\n ⚠️ Authentication failed!\n"
                                     LoginDialog().show()
                                 }
                             }
@@ -109,7 +114,16 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
             val proxy = Proxy(Proxy.Type.SOCKS, proxyAddress)
             val connection: URLConnection = url.openConnection(proxy)
 
+            val usernamePassword = PasswordSafe.instance.get(createCredentialAttributes())
+
             return runCatching {
+                val encodedBasicAuth = "${usernamePassword!!.userName}:${usernamePassword.password!!}".encodeBase64()
+
+                connection.setRequestProperty(
+                    "Authorization",
+                    "Basic $encodedBasicAuth"
+                )
+
                 connection.getInputStream().bufferedReader().use {
                     it.readText()
                 }

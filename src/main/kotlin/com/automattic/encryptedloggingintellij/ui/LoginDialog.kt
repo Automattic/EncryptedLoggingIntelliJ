@@ -1,5 +1,9 @@
 package com.automattic.encryptedloggingintellij.ui
 
+import com.automattic.encryptedloggingintellij.services.createCredentialAttributes
+import com.intellij.credentialStore.CredentialAttributes
+import com.intellij.credentialStore.Credentials
+import com.intellij.ide.passwordSafe.PasswordSafe
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
 import java.awt.FlowLayout
@@ -14,25 +18,6 @@ class LoginDialog() : DialogWrapper(null) {
     init {
         title = "Login to MC"
         init()
-    }
-
-    // Buttons for actions
-    private val okButton = JButton("OK").apply {
-        addActionListener {
-            // Handle login logic here
-            val username = usernameField.text
-            val password = String(passwordField.password)
-            println("Username: $username, Password: $password") // Replace with actual login handling
-
-            // Close the dialog
-            dispose()
-        }
-    }
-    private val cancelButton = JButton("Cancel").apply {
-        addActionListener {
-            // Close the dialog without doing anything
-            dispose()
-        }
     }
 
     override fun createCenterPanel(): JComponent {
@@ -59,8 +44,11 @@ class LoginDialog() : DialogWrapper(null) {
     override fun doOKAction() {
         val username = usernameField.text
         val password = String(passwordField.password)
-        // Handle login logic here
-        println("Username: $username, Password: $password")  // Replace with actual login handling
+
+        PasswordSafe.instance.set(
+            createCredentialAttributes(),
+            Credentials(username, password)
+        )
 
         super.doOKAction()
     }
