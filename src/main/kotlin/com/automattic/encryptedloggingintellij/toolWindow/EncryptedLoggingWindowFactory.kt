@@ -3,6 +3,7 @@ package com.automattic.encryptedloggingintellij.toolWindow
 import com.automattic.encryptedloggingintellij.services.MyProjectService
 import com.automattic.encryptedloggingintellij.services.createCredentialAttributes
 import com.automattic.encryptedloggingintellij.ui.LoginDialog
+import com.intellij.credentialStore.Credentials
 import com.intellij.ide.passwordSafe.PasswordSafe
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
@@ -17,7 +18,6 @@ import com.intellij.ui.components.TextComponentEmptyText
 import com.intellij.ui.content.ContentFactory
 import io.ktor.util.*
 import io.ktor.utils.io.errors.*
-import org.jsoup.Jsoup
 import java.awt.BorderLayout
 import java.awt.FlowLayout
 import java.net.InetSocketAddress
@@ -97,7 +97,13 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
                                     outputTextArea.text += "\n ⚠️ Make sure Autoproxxy is connected!\n"
                                 } else if (throwable is IOException || throwable is NullPointerException){
                                     outputTextArea.text += "\n ⚠️ Authentication failed!\n"
-                                    LoginDialog().show()
+                                    LoginDialog(okAction = { username, password ->
+                                        outputTextArea.text = ""
+                                        PasswordSafe.instance.set(
+                                            createCredentialAttributes(),
+                                            Credentials(username, password)
+                                        )
+                                    }).show()
                                 }
                             }
                         )
@@ -106,7 +112,7 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
             }
         }
 
-        private fun sendRequest(uuid: String): Result<String> {
+        private fun sendRequest(uuid: String = "default incorrect uuid"): Result<String> {
             val url: URL =
                 URL("https://mc.a8c.com/encrypted-logs.php?uuid=$uuid")
             val proxyAddress = InetSocketAddress("localhost", 8080)

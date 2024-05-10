@@ -1,7 +1,6 @@
 package com.automattic.encryptedloggingintellij.ui
 
 import com.automattic.encryptedloggingintellij.services.createCredentialAttributes
-import com.intellij.credentialStore.CredentialAttributes
 import com.intellij.credentialStore.Credentials
 import com.intellij.ide.passwordSafe.PasswordSafe
 import com.intellij.openapi.ui.DialogWrapper
@@ -10,7 +9,7 @@ import java.awt.FlowLayout
 import javax.swing.*
 
 
-class LoginDialog() : DialogWrapper(null) {
+class LoginDialog(private val okAction: (String, String) -> Unit) : DialogWrapper(null) {
     // Text fields for user input
     private val usernameField = JTextField(15)
     private val passwordField = JPasswordField(15)
@@ -45,10 +44,8 @@ class LoginDialog() : DialogWrapper(null) {
         val username = usernameField.text
         val password = String(passwordField.password)
 
-        PasswordSafe.instance.set(
-            createCredentialAttributes(),
-            Credentials(username, password)
-        )
+
+        okAction(username, password)
 
         super.doOKAction()
     }
