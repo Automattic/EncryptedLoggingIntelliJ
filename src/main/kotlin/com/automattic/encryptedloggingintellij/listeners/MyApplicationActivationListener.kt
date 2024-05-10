@@ -1,4 +1,4 @@
-package com.github.wzieba.encryptedloggingintellij.listeners
+package com.automattic.encryptedloggingintellij.listeners
 
 import com.intellij.openapi.application.ApplicationActivationListener
 import com.intellij.openapi.diagnostic.thisLogger

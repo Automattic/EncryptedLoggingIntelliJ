@@ -1,4 +1,4 @@
-package com.github.wzieba.encryptedloggingintellij.toolWindow
+package com.automattic.encryptedloggingintellij.toolWindow
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -8,8 +8,8 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.content.ContentFactory
-import com.github.wzieba.encryptedloggingintellij.MyBundle
-import com.github.wzieba.encryptedloggingintellij.services.MyProjectService
+import com.automattic.encryptedloggingintellij.MyBundle
+import com.automattic.encryptedloggingintellij.services.MyProjectService
 import javax.swing.JButton
 
 
