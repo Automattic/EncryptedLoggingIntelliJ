@@ -18,6 +18,7 @@ import com.intellij.ui.components.TextComponentEmptyText
 import com.intellij.ui.content.ContentFactory
 import io.ktor.util.*
 import io.ktor.utils.io.errors.*
+import org.jsoup.Jsoup
 import java.awt.BorderLayout
 import java.awt.FlowLayout
 import java.net.InetSocketAddress
@@ -131,7 +132,9 @@ class EncryptedLoggingWindowFactory : ToolWindowFactory {
                 )
 
                 connection.getInputStream().bufferedReader().use {
-                    it.readText()
+                    Jsoup.parse(it.readText())
+                        .select("pre")
+                        .text()
                 }
             }
         }
