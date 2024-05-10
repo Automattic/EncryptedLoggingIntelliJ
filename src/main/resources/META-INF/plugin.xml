@@ -9,7 +9,7 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.automattic.encryptedloggingintellij.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <toolWindow factoryClass="com.automattic.encryptedloggingintellij.toolWindow.EncryptedLoggingWindowFactory" id="Automattic's Encrypted Logs" anchor="bottom" icon="AllIcons.Toolwindows.ToolWindowMessages"/>
     </extensions>
 
     <applicationListeners>
