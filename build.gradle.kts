@@ -1,7 +1,6 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
-import java.util.*
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
@@ -128,7 +127,7 @@ tasks {
 intellijPlatformTesting.runIde.register("runIdeForUiTests") {
     task {
         jvmArgumentProviders += CommandLineArgumentProvider {
-            Arrays.asList(
+            listOf(
                 "-Drobot-server.port=8082",
                 "-Dide.mac.message.dialogs.as.sheets=false",
                 "-Djb.privacy.policy.text=<!--999.999-->",
