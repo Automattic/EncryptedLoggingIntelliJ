@@ -34,6 +34,7 @@ dependencies {
         create(properties("platformType"), properties("platformVersion"))
 
         instrumentationTools()
+        pluginVerifier()
         testFramework(TestFrameworkType.Platform)
     }
 }
@@ -47,6 +48,11 @@ kotlin {
 intellijPlatform {
     pluginConfiguration {
         name = properties("pluginName").get()
+    }
+    pluginVerification {
+        ides {
+            recommended()
+        }
     }
 }
 
