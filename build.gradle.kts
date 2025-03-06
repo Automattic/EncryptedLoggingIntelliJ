@@ -76,6 +76,7 @@ intellijPlatform {
         }
         ideaVersion {
             sinceBuild = properties("pluginSinceBuild").get()
+            untilBuild = provider { null }
         }
     }
     pluginVerification {
